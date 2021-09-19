@@ -1,10 +1,11 @@
+import Container from './components/Container';
 import AuthorsList from './components/AuthorsList';
 
 function App() {
   return (
-    <div className="App">
+    <Container>
       <AuthorsList />
-    </div>
+    </Container>
   );
 }
 

@@ -76,7 +76,7 @@ function Table({ data, page, topThreeAuthors }) {
                         : 'empty'
                     }
                   ></td>
-                  <td>{item.pageviews}</td>
+                  <td>{item.pageviews.toLocaleString()}</td>
                 </tr>
               ))
             : null}
