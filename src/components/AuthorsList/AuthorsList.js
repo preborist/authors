@@ -47,13 +47,12 @@ function AuthorsList() {
 
   const handleInputChange = e => {
     setFilter(e.currentTarget.value);
+    setPage(1);
     const normalizedFilter = e.currentTarget.value.toLowerCase();
     console.log(normalizedFilter);
     const filteredAuthors = authors.filter(author =>
       author.name.toLowerCase().includes(normalizedFilter),
     );
-    console.log(filteredAuthors);
-
     setFilteredAuthors(filteredAuthors);
     setTotalPages(Math.ceil(filteredAuthors.length / AUTHORS_PER_PAGE));
   };
@@ -64,10 +63,11 @@ function AuthorsList() {
       const response = await fetch('data.json');
 
       const data = await response.json();
-      setIsLoading(false);
+
       setAuthors(data);
       findThreeTopAuthors(data);
       setTotalPages(Math.ceil(data.length / AUTHORS_PER_PAGE));
+      setIsLoading(false);
     };
     fetchData();
   }, []);
@@ -83,8 +83,8 @@ function AuthorsList() {
           <Table
             data={filteredAuthors ? filteredAuthors : authors}
             page={page}
-            totalPages={totalPages}
             topThreeAuthors={topThreeAuthors}
+            filter={filter}
           />
           <Pagination
             totalPages={totalPages}
