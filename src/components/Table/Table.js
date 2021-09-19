@@ -59,7 +59,9 @@ function Table({ data, page, topThreeAuthors }) {
                 <tr key={item.Name + Date() + item.pageviews.toString()}>
                   <td>{startIndex + index + 1}</td>
                   <td>{item.name.charAt(0)}</td>
-                  <td>{item.name}</td>
+                  <td>
+                    {item.name} <span>{item.count_pub} публ.</span>
+                  </td>
                   <td
                     className={
                       item.pageviews === topThreeAuthors[0].pageviews
