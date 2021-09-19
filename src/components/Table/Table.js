@@ -5,19 +5,14 @@ import s from './Table.module.scss';
 
 function Table({ data, page, topThreeAuthors }) {
   const [displayedData, setDisplayedData] = useState([]);
+  const [orderedData, setOrderedData] = useState([]);
   const [sortOrder, setSortOrder] = useState(1);
   const [sortField, setSortField] = useState('pageviews');
 
   const startIndex = (page - 1) * AUTHORS_PER_PAGE;
 
   const handleOnSort = sortField => {
-    const clonedData = data.concat();
     setSortField(sortField);
-    const orderedData = clonedData.sort(function (a, b) {
-      let result =
-        a[sortField] > b[sortField] ? -1 : a[sortField] < b[sortField] ? 1 : 0;
-      return result * sortOrder;
-    });
 
     const selectedUsers = orderedData.slice(
       startIndex,
@@ -30,12 +25,20 @@ function Table({ data, page, topThreeAuthors }) {
   useEffect(() => {
     const clonedData = data.concat();
 
-    const selectedUsers = clonedData.slice(
+    const orderedData = clonedData.sort(function (a, b) {
+      let result =
+        a[sortField] > b[sortField] ? -1 : a[sortField] < b[sortField] ? 1 : 0;
+      return result * sortOrder;
+    });
+
+    setOrderedData(orderedData);
+
+    const selectedUsers = orderedData.slice(
       startIndex,
       startIndex + AUTHORS_PER_PAGE,
     );
     setDisplayedData(selectedUsers);
-  }, [data, startIndex]);
+  }, [data, startIndex, page, sortField, sortOrder]);
 
   return (
     <div>
@@ -45,11 +48,11 @@ function Table({ data, page, topThreeAuthors }) {
             <th>#</th>
             <th>Letter</th>
             <th onClick={() => handleOnSort('name')}>
-              Name{sortField === 'name' ? <small>asc</small> : null}
+              Name{sortField === 'name' ? <small>sort</small> : null}
             </th>
             <th>awards</th>
             <th onClick={() => handleOnSort('pageviews')}>
-              pageviews{sortField === 'pageviews' ? <small>asc</small> : null}
+              pageviews{sortField === 'pageviews' ? <small>sort</small> : null}
             </th>
           </tr>
         </thead>
