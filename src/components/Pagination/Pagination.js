@@ -28,7 +28,9 @@ function Pagination({
             >
               &#10094;
             </button>
-          ) : null}
+          ) : (
+            <div className={s.emptyArrow}></div>
+          )}
           <div className={s.authorsNumbers}>{`${firstItem} - ${lastItem}`}</div>
           {page < totalPages ? (
             <button
@@ -37,7 +39,9 @@ function Pagination({
             >
               &#10095;
             </button>
-          ) : null}
+          ) : (
+            <div className={s.emptyArrow}></div>
+          )}
         </div>
       ) : null}
     </>

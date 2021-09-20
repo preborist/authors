@@ -1,5 +1,5 @@
+import { ReactComponent as SerchIcon } from './search.svg';
 import s from './Filter.module.scss';
-import { ReactComponent as Icon } from './search.svg';
 
 function Filter({ inputFilterName, changeFilter }) {
   return (
@@ -16,7 +16,7 @@ function Filter({ inputFilterName, changeFilter }) {
       <label htmlFor="filter" className={s.label}>
         Поиск авторов по имени
       </label>
-      <Icon className={s.logo} />
+      <SerchIcon className={s.logo} />
     </div>
   );
 }

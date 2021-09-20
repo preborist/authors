@@ -1,12 +1,15 @@
 import { useEffect, useState } from 'react';
-import Pagination from '../Pagination';
+
 import { AUTHORS_PER_PAGE } from '../../utils/constants';
 import Loader from '../Loader';
-import Table from '../Table';
 import Filter from '../Filter';
+import Table from '../Table';
+import Pagination from '../Pagination';
+import s from './AuthorsList.module.scss';
 
 function AuthorsList() {
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
   const [authors, setAuthors] = useState([]);
   const [filteredAuthors, setFilteredAuthors] = useState(null);
   const [topThreeAuthors, setTopThreeAuthors] = useState([]);
@@ -50,7 +53,6 @@ function AuthorsList() {
     setFilter(e.currentTarget.value);
     setPage(1);
     const normalizedFilter = e.currentTarget.value.toLowerCase();
-    console.log(normalizedFilter);
     const filteredAuthors = authors.filter(author =>
       author.name.toLowerCase().includes(normalizedFilter),
     );
@@ -60,20 +62,25 @@ function AuthorsList() {
 
   useEffect(() => {
     const fetchData = async () => {
-      setIsLoading(true);
-      const response = await fetch('data.json');
-      const data = await response.json();
-      setAuthors(data);
-      findThreeTopAuthors(data);
-      setTotalPages(Math.ceil(data.length / AUTHORS_PER_PAGE));
-      setIsLoading(false);
+      try {
+        setIsLoading(true);
+        const response = await fetch('data.json');
+        const data = await response.json();
+        setAuthors(data);
+        findThreeTopAuthors(data);
+        setTotalPages(Math.ceil(data.length / AUTHORS_PER_PAGE));
+      } catch (error) {
+        setError(error.message);
+      } finally {
+        setIsLoading(false);
+      }
     };
     fetchData();
   }, []);
 
   return (
     <>
-      <h1>Authors List</h1>
+      <h1 className={s.title}>Authors List</h1>
       {isLoading ? (
         <Loader />
       ) : (
@@ -81,6 +88,7 @@ function AuthorsList() {
           <Filter inputFilterName={filter} changeFilter={handleInputChange} />
           <Table
             data={filteredAuthors ? filteredAuthors : authors}
+            error={error}
             page={page}
             topThreeAuthors={topThreeAuthors}
             filter={filter}
