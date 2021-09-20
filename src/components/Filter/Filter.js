@@ -11,6 +11,7 @@ function Filter({ inputFilterName, changeFilter }) {
         value={inputFilterName}
         onChange={changeFilter}
         className={s.input}
+        placeholder=" "
       />
       <label htmlFor="filter" className={s.label}>
         Поиск авторов по имени

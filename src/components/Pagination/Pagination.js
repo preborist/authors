@@ -1,3 +1,5 @@
+import s from './Pagination.module.scss';
+
 function Pagination({
   totalPages,
   page,
@@ -16,20 +18,29 @@ function Pagination({
   }
 
   return (
-    <div>
+    <>
       {totalPages > 1 ? (
-        <div>
+        <div className={s.container}>
           {page > 1 ? (
-            <button onClick={() => handlePrevPageClick(page)}>prev</button>
+            <button
+              onClick={() => handlePrevPageClick(page)}
+              className={s.button}
+            >
+              &#10094;
+            </button>
           ) : null}
-          <div>{`${firstItem} - ${lastItem}`}</div>
-
+          <div className={s.authorsNumbers}>{`${firstItem} - ${lastItem}`}</div>
           {page < totalPages ? (
-            <button onClick={() => handleNextPageClick(page)}>next</button>
+            <button
+              onClick={() => handleNextPageClick(page)}
+              className={s.button}
+            >
+              &#10095;
+            </button>
           ) : null}
         </div>
       ) : null}
-    </div>
+    </>
   );
 }
 

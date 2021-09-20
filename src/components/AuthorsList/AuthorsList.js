@@ -37,6 +37,7 @@ function AuthorsList() {
       setPage((num += 1));
     }
   };
+
   const handlePrevPageClick = num => {
     if (num === 1) {
       return;
@@ -61,9 +62,7 @@ function AuthorsList() {
     const fetchData = async () => {
       setIsLoading(true);
       const response = await fetch('data.json');
-
       const data = await response.json();
-
       setAuthors(data);
       findThreeTopAuthors(data);
       setTotalPages(Math.ceil(data.length / AUTHORS_PER_PAGE));
